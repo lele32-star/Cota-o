@@ -1,0 +1,331 @@
+{
+  "flash": [
+    {"id":"fc-what-is-vmcg-flaps-0-10-and-20","front":"What is VMCG (Flaps 0°, 10° and 20°)?","back":"88 KIAS","tags":["limitations","speeds"],"source":{"file":"FlashCards1.pdf","pages":"9-10"}},
+    {"id":"fc-what-is-vmca-flaps-0","front":"What is VMCA (Flaps 0°)?","back":"96 KIAS","tags":["limitations","speeds"],"source":{"file":"FlashCards1.pdf","pages":"11-12"}},
+    {"id":"fc-what-is-vmca-flaps-10-and-20","front":"What is VMCA (Flaps 10° and 20°)?","back":"89 KIAS","tags":["limitations","speeds"],"source":{"file":"FlashCards1.pdf","pages":"13-14"}},
+    {"id":"fc-what-is-vmo-sl-to-8000-ft","front":"What is VMO (S.L. to 8,000 ft)?","back":"264 KIAS","tags":["limitations","altitudes","speeds"],"source":{"file":"FlashCards1.pdf","pages":"15-16"}},
+    {"id":"fc-what-is-vmo-8000-to-11000-ft","front":"What is VMO (8,000 to 11,000 ft)?","back":"264 to 320 KIAS Linear Variation Between Altitudes","tags":["limitations","altitudes","speeds"],"source":{"file":"FlashCards1.pdf","pages":"17-18"}},
+    {"id":"fc-what-is-vmo-11000-to-26000-ft","front":"What is VMO (11,000 to 26,000 ft)?","back":"320 KIAS","tags":["limitations","altitudes","speeds"],"source":{"file":"FlashCards1.pdf","pages":"19-20"}},
+    {"id":"fc-what-is-mmo-above-26000-ft","front":"What is MMO (above 26,000 ft)?","back":"0.78MI","tags":["limitations","altitudes"],"source":{"file":"FlashCards1.pdf","pages":"21-22"}},
+    {"id":"fc-what-is-vll-landing-light","front":"What is VLL (Landing Light)?","back":"200 KIAS","tags":["limitations","speeds"],"source":{"file":"FlashCards1.pdf","pages":"23-24"}},
+    {"id":"fc-what-is-vww-windshield-wiper","front":"What is VWW (Windshield Wiper)?","back":"200 KIAS","tags":["limitations","weather","speeds"],"source":{"file":"FlashCards1.pdf","pages":"25-26"}},
+    {"id":"fc-what-is-the-maximum-tailwind-component-for-start","front":"What is the maximum tailwind component for start?","back":"No Limit","tags":["limitations","weather"],"source":{"file":"FlashCards1.pdf","pages":"29-30"}},
+    {"id":"fc-what-is-the-maximum-zero-fuel-weight","front":"What is the MAXIMUM Zero Fuel Weight?","back":"13,000 lbs","tags":["limitations","weights"],"source":{"file":"FlashCards1.pdf","pages":"31-32"}},
+    {"id":"fc-what-is-the-maximum-landing-weight","front":"What is the MAXIMUM Landing Weight?","back":"15,700 lbs • NOTE: Inspection required with landings over 15,700 lbs","tags":["limitations","weights"],"source":{"file":"FlashCards1.pdf","pages":"33-34"}},
+    {"id":"fc-what-is-the-maximum-takeoff-weight","front":"What is the MAXIMUM Takeoff Weight?","back":"16,100 lbs 16,300 lbs with Kit (P/N 128-5052)","tags":["limitations","weights"],"source":{"file":"FlashCards1.pdf","pages":"35-36"}},
+    {"id":"fc-what-is-the-maximum-ramp-weight","front":"What is the MAXIMUM Ramp Weight?","back":"16,300 lbs 16,500 lbs with Kit (P/N 128-5052)","tags":["limitations","weights"],"source":{"file":"FlashCards1.pdf","pages":"37-38"}},
+    {"id":"fc-what-is-the-maximum-operating-altitude","front":"What is the Maximum Operating Altitude?","back":"45,000 ft","tags":["limitations","altitudes"],"source":{"file":"FlashCards1.pdf","pages":"45-46"}},
+    {"id":"fc-what-is-the-minimum-required-flight-crew","front":"What is the minimum required flight crew?","back":"1 Pilot & 1 Co-pilot","tags":["limitations","crew","documentation"],"source":{"file":"FlashCards1.pdf","pages":"53-54"}},
+    {"id":"fc-what-are-the-authorized-kinds-of-operations","front":"What are the authorized kinds of operations?","back":"• Day • Night • VFR • IFR • Known icing conditions","tags":["limitations"],"source":{"file":"FlashCards1.pdf","pages":"55-56"}},
+    {"id":"fc-what-are-the-3-main-sources-of-dc-power","front":"What are the 3 Main Sources of DC power?","back":"1. 1 Lead-Acid Battery (24 VDC/40 Amps) 2. 2 Generators (28 VDC/400 Amps) 3. 1 GPU (28 VDC/1000-1500 Amps)","tags":["limitations"],"source":{"file":"FlashCards1.pdf","pages":"69-70"}},
+    {"id":"fc-what-are-the-sources-of-ac-power","front":"What are the sources of AC power?","back":"Two inverters, each producing 26 VAC and 115 VAC","tags":["limitations"],"source":{"file":"FlashCards1.pdf","pages":"71-72"}},
+    {"id":"fc-what-is-the-maximum-altitude-for-landing-light-ext","front":"What is the maximum altitude for landing light extension?","back":"20,000 ft","tags":["limitations","altitudes"],"source":{"file":"FlashCards1.pdf","pages":"97-98"}},
+    {"id":"fc-what-is-normal-fire-bottle-pressure","front":"What is Normal Fire Bottle Pressure?","back":"FIRE PROTECTION 580 to 600 PSI","tags":["limitations","fire-protection"],"source":{"file":"FlashCards1.pdf","pages":"101-102"}},
+    {"id":"fc-what-is-vfe-vfo-for-flaps-10-and-20","front":"What is VFE /VFO for Flaps 10° and 20°?","back":"FLIGHT CONTROLS 200 KIAS","tags":["limitations","speeds"],"source":{"file":"FlashCards1.pdf","pages":"107-108"}},
+    {"id":"fc-what-is-vfe-vfo-for-flaps-30","front":"What is VFE /VFO for Flaps 30°?","back":"FLIGHT CONTROLS VFE = 165 KIAS VFO = 170 KIAS","tags":["limitations","speeds"],"source":{"file":"FlashCards1.pdf","pages":"109-110"}},
+    {"id":"fc-what-is-the-maximum-altitude-for-flap-extension","front":"What is the maximum altitude for flap extension?","back":"FLIGHT CONTROLS 20,000 ft","tags":["limitations","altitudes"],"source":{"file":"FlashCards1.pdf","pages":"111-112"}},
+    {"id":"fc-what-is-vsbmsb-for-speed-brakes","front":"What is VSB/MSB for Speed Brakes?","back":"FLIGHT CONTROLS No Limit","tags":["limitations","speeds"],"source":{"file":"FlashCards1.pdf","pages":"113-114"}},
+    {"id":"fc-what-are-the-max-usable-fuel-quantities","front":"What are the max usable fuel quantities?","back":"FUEL Wings - 2,862# Left Main Fuselage Right Main Fuselage - 2,050# 1,431# 2,050# 1,431# 213.6 Gallons 305.8 Gallons 213.6 Gallons Full - 4,912#","tags":["limitations"],"source":{"file":"FlashCards1.pdf","pages":"123-124"}},
+    {"id":"fc-what-is-the-maximum-fuel-unbalance-for-takeoff","front":"What is the Maximum Fuel Unbalance for takeoff?","back":"FUEL 100 lbs","tags":["limitations"],"source":{"file":"FlashCards1.pdf","pages":"129-130"}},
+    {"id":"fc-what-are-the-fuel-temperature-limits","front":"What are the fuel temperature limits?","back":"FUEL -40°C to 50°C","tags":["limitations","temperatures"],"source":{"file":"FlashCards1.pdf","pages":"133-134"}},
+    {"id":"fc-what-restrictions-apply-to-the-fuel-crossfeed-proc","front":"What restrictions apply to the fuel crossfeed process?","back":"FUEL • Crossfeed w/both engines operating is limited to level flight when less than 600# remains in the tank supplying fuel • Must be selected “NORM” for Takeoff and Landing","tags":["limitations"],"source":{"file":"FlashCards1.pdf","pages":"143-144"}},
+    {"id":"fc-what-is-maximum-hydraulic-system-pressure","front":"What is Maximum Hydraulic System Pressure?","back":"HYDRAULICS Red Line (1,850 PSI)","tags":["limitations","fire-protection"],"source":{"file":"FlashCards1.pdf","pages":"147-148"}},
+    {"id":"fc-what-is-the-required-type-of-hydraulic-fluid","front":"What is the required type of hydraulic fluid?","back":"HYDRAULICS MIL-H-5606","tags":["limitations","documentation"],"source":{"file":"FlashCards1.pdf","pages":"153-154"}},
+    {"id":"fc-what-is-vww-windshield-wiper-if-installed","front":"What is VWW (Windshield Wiper), if installed?","back":"ICE AND RAIN 200 KIAS","tags":["limitations","weather","speeds"],"source":{"file":"FlashCards1.pdf","pages":"157-158"}},
+    {"id":"fc-what-limitations-apply-to-windshield-antiice","front":"What limitations apply to windshield anti-ice?","back":"ICE AND RAIN • Must be on (LOW or HIGH) for all in-flight operations • HI mode is prohibited for takeoff and landing","tags":["limitations","weather"],"source":{"file":"FlashCards1.pdf","pages":"167-168"}},
+    {"id":"fc-what-is-maximum-tire-speed-vtire-","front":"What is Maximum Tire Speed (VTIRE )?","back":"LANDING GEAR & BRAKES 165 Kts Ground Speed","tags":["limitations","speeds"],"source":{"file":"FlashCards1.pdf","pages":"187-188"}},
+    {"id":"fc-what-is-the-maximum-altitude-for-gear-extension","front":"What is the maximum altitude for gear extension?","back":"LANDING GEAR & BRAKES 20,000 ft","tags":["limitations","altitudes"],"source":{"file":"FlashCards1.pdf","pages":"189-190"}},
+    {"id":"fc-what-is-the-maximum-pressure-differential","front":"What is the Maximum Pressure Differential?","back":"ENVIRONMENTAL 9.1 PSID","tags":["limitations","fire-protection"],"source":{"file":"FlashCards1.pdf","pages":"199-200"}},
+    {"id":"fc-what-engine-is-installed-on-the-beechjet-400a","front":"What engine is installed on the Beechjet 400A?","back":"POWERPLANT Pratt & Whitney JT15D-5, Or Pratt & Whitney JT15D-5R","tags":["limitations"],"source":{"file":"FlashCards1.pdf","pages":"213-214"}},
+    {"id":"fc-what-is-the-maximum-fan-speed-n1","front":"What is the maximum fan speed (N1)?","back":"POWERPLANT Red Line (104%)","tags":["limitations","speeds"],"source":{"file":"FlashCards1.pdf","pages":"217-218"}},
+    {"id":"fc-what-is-the-maximum-turbine-speed-n2","front":"What is the maximum turbine speed (N2)?","back":"POWERPLANT Red Line (96%)","tags":["limitations","speeds"],"source":{"file":"FlashCards1.pdf","pages":"219-220"}},
+    {"id":"fc-what-is-the-maximum-itt-for-starting","front":"What is the maximum ITT for starting?","back":"POWERPLANT • 550-600°C for 4 seconds maximum • 600-700°C for 2 seconds maximum • (See JT15D-5 maintenance manual if the above limitations are exceeded)","tags":["limitations"],"source":{"file":"FlashCards1.pdf","pages":"227-228"}},
+    {"id":"fc-what-is-the-maximum-itt-for-takeoff","front":"What is the maximum ITT for takeoff?","back":"POWERPLANT Red Line (700°C) (Limited to 5 minutes for both engines operating or 10 minutes for one engine)","tags":["limitations"],"source":{"file":"FlashCards1.pdf","pages":"229-230"}},
+    {"id":"fc-what-is-the-maximum-oil-pressure","front":"What is the maximum oil pressure?","back":"POWERPLANT Red Line (83 PSI)","tags":["limitations","fire-protection"],"source":{"file":"FlashCards1.pdf","pages":"233-234"}},
+    {"id":"fc-what-is-the-minimum-oil-temperature-for-starting","front":"What is the minimum oil temperature for starting?","back":"POWERPLANT Bottom of the yellow arc (-40°C)","tags":["limitations","temperatures"],"source":{"file":"FlashCards1.pdf","pages":"237-238"}},
+    {"id":"fc-what-is-the-maximum-oil-temperature","front":"What is the maximum oil temperature?","back":"POWERPLANT Red Line (121°C)","tags":["limitations","temperatures"],"source":{"file":"FlashCards1.pdf","pages":"243-244"}},
+    {"id":"fc-what-is-maximum-continuous-itt","front":"What is maximum continuous ITT?","back":"POWERPLANT Top of the green arc (680°C)","tags":["limitations"],"source":{"file":"FlashCards1.pdf","pages":"245-246"}},
+    {"id":"fc-what-is-the-minimum-speed-for-using-full-reverse-t","front":"What is the minimum speed for using full reverse thrust?","back":"POWERPLANT 55 KIAS","tags":["limitations","speeds"],"source":{"file":"FlashCards1.pdf","pages":"249-250"}}
+  ],
+  "memory": [
+    {
+      "id": "mem-engine-failure-during-takeoff-below-v1-takeoff-abo",
+      "title": "ENGINE FAILURE DURING TAKEOFF (BELOW V1 - TAKEOFF ABORTED)",
+      "steps": [
+        "Brakes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Apply",
+        "Thrust . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . IDLE",
+        "Thrust Reverser(s) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .DEPLOY",
+        "Reverser Lights . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . VERIFY",
+        "Reverse Thrust . . . . . . . . . . . . . . . . . . . . . . . . . . . . AS REQUIRED",
+        "Speed Brakes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .EXTEND"
+      ],
+      "distractors": [],
+      "tags": ["engine","takeoff","failure"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "261-262"}
+    },
+    {
+      "id": "mem-engine-failure-during-takeoff-above-v1-takeoff-con",
+      "title": "ENGINE FAILURE DURING TAKEOFF (ABOVE V1 - TAKEOFF CONTINUED)",
+      "steps": [
+        "Nose Up Pitch Attitude at Rotation (VR) 13º to 15º Desired",
+        "Landing Gear . . . . . . . . . . . . . . UP, when positive rate-of-climb is established",
+        "Airspeed . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . MAINTAIN V2"
+      ],
+      "distractors": [],
+      "tags": ["engine","takeoff","failure"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "263-264"}
+    },
+    {
+      "id": "mem-engine-fire",
+      "title": "ENGINE FIRE",
+      "steps": [
+        "Thrust (affected engine) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . IDLE If ENG FIRE PUSH switch light remains illuminated:",
+        "Thrust Lever (affected engine) . . . . . . . . . . . . . . . . . . . . . .CUTOFF",
+        "Illuminated Engine Fire Switch . . . . . . . . . . . . . . . . . . . . . . . . PUSH",
+        "Either Fire Bottle Switch . . . . . . . . . . . . . . . . . . . . . . . . . . . . . PUSH"
+      ],
+      "distractors": [],
+      "tags": ["engine","fire"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "265-266"}
+    },
+    {
+      "id": "mem-engine-fire-detector-failure",
+      "title": "ENGINE FIRE DETECTOR FAILURE",
+      "steps": [
+        "If the FIRE DET FAIL annunciator illuminates follow an ENG FIRE PUSH switch illumination the fire shoud be considered to still be burning",
+        "Engine Fire Procedure . . . . . . . . . . . . . . . . . COMPLETE",
+        "Remaining Illuminated Fire Bottle Swithch . . . . . . . . . . . . . . . . . . . . . . . . . PUSH"
+      ],
+      "distractors": [],
+      "tags": ["engine","fire","failure"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "267-268"}
+    },
+    {
+      "id": "mem-engine-failure-in-landing-configuration",
+      "title": "ENGINE FAILURE IN LANDING CONFIGURATION",
+      "steps": [
+        "Thrust (operative engine) . . . . . . . . . . . . . . . . . . . . . . . AS REQUIRED",
+        "Airspeed . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .VREF (MINIMUM)"
+      ],
+      "distractors": [],
+      "tags": ["engine","landing","failure"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "269-270"}
+    },
+    {
+      "id": "mem-inadvertent-thrust-reverser-deployment-during-take",
+      "title": "INADVERTENT THRUST REVERSER DEPLOYMENT DURING TAKEOFF (BELOW V1 - TAKEOFF ABORTED)",
+      "steps": [
+        "Brakes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . APPLY",
+        "Thrust . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . IDLE",
+        "Thrust Reversers . . . . . . . . . . . . . . . . . . . . . . . . . . BOTH DEPLOY",
+        "Reverser Lights . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . VERIFY",
+        "Reverse Thrust . . . . . . . . . . . . . . . . . . . . . . . . . . . AS REQUIRED",
+        "Speed Brakes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . EXTEND"
+      ],
+      "distractors": [],
+      "tags": ["takeoff"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "271-272"}
+    },
+    {
+      "id": "mem-inadvertent-thrust-reverser-deployment-during-take-1",
+      "title": "INADVERTENT THRUST REVERSER DEPLOYMENT DURING TAKEOFF (ABOVE V1 - TAKEOFF CONTINUED)",
+      "steps": [
+        "Emergency Stow Push-Switch(affected engine) . . . . . . . . . . . . . . PUSH",
+        "Nose Up Pitch Attitude atRotation . . . . . . . . . . . . . . . . 13-15° DESIRED",
+        "Landing Gear(when positive climb established) . . . . . . . . . . . . . . . . . . . . UP",
+        "Airspeed . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . V2 (MIN) If reverser will not stow and lock:",
+        "Thrust Lever (affected engine) . . . . . . . . . . . . . . . . . . . . . . . . .CUTOFF"
+      ],
+      "distractors": [],
+      "tags": ["takeoff"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "273-274"}
+    },
+    {
+      "id": "mem-inadvertent-thrust-reverser-deployment-in-flight",
+      "title": "INADVERTENT THRUST REVERSER DEPLOYMENT IN FLIGHT",
+      "steps": [
+        "Emergency Stow Push-Switch (affected engine) . . . . . . . . . . . . . . PUSH",
+        "Altitude . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . BELOW 30,000 ft",
+        "Airspeed (until reverser stows/locks) . . . . . . . . . . . . . . . . BELOW 135 KIAS"
+      ],
+      "distractors": [],
+      "tags": ["general"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "275-276"}
+    },
+    {
+      "id": "mem-inadvertent-overspeed",
+      "title": "INADVERTENT OVERSPEED",
+      "steps": [
+        "Thrust . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . IDLE",
+        "Speedbrakes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .EXTEND",
+        "If airplane is in a nose-down attitude, initiate a wings-level pull-up with exceeding structural limits (3.2g)"
+      ],
+      "distractors": [],
+      "tags": ["overspeed"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "277-278"}
+    },
+    {
+      "id": "mem-electrical-fire-or-smoke",
+      "title": "ELECTRICAL FIRE OR SMOKE",
+      "steps": [
+        "Oxygen Masks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . DON",
+        "Smoke Goggles . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . DON",
+        "Mic Selector . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . OXY MASK",
+        "SPKR Switches . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ON or DON HEADSET",
+        "INTPH Switch . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ON",
+        "Smoke Removal Procedures . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . IF NECESSARY If known source:",
+        "Faulted Circuits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ISOLATE If unknown source:",
+        "Battery . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . EMER",
+        "Master Generator Switches . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . EMER"
+      ],
+      "distractors": [],
+      "tags": ["fire","electrical","smoke"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "279-280"}
+    },
+    {
+      "id": "mem-environmental-system-smoke-or-odor",
+      "title": "ENVIRONMENTAL SYSTEM SMOKE OR ODOR",
+      "steps": [
+        "Oxygen Masks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . DON",
+        "Smoke Goggles . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . DON",
+        "Mic Selectors . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . OXY MASK",
+        "SPKR Switch . . . . . . . . . . . . . . . . . . . . . . . . . . . . .ON or DON HEADSET",
+        "INTPH Switch . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ON",
+        "Cabin Pressure Source . . . . . . . . . . . . . . . . . . . . . . . . ISOLATE SOURCE"
+      ],
+      "distractors": [],
+      "tags": ["smoke"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "281-282"}
+    },
+    {
+      "id": "mem-smoke-removal",
+      "title": "SMOKE REMOVAL",
+      "steps": [
+        "Oxygen Masks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . DON",
+        "Smoke Goggles . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . DON",
+        "Mic Selectors . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . OXY MASK",
+        "SPKR Switch . . . . . . . . . . . . . . . . . . . . . . . . . . . . .ON or DON HEADSET",
+        "INTPH Switch . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ON"
+      ],
+      "distractors": [],
+      "tags": ["smoke"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "283-284"}
+    },
+    {
+      "id": "mem-cabin-decompression",
+      "title": "CABIN DECOMPRESSION",
+      "steps": [
+        "Oxygen Masks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . DON",
+        "Mic Selectors . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . OXY MASK",
+        "SPKR Switch . . . . . . . . . . . . . . . . . . . . . . . . . . . . .ON or DON HEADSET",
+        "INTPH Switch . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ON"
+      ],
+      "distractors": [],
+      "tags": ["pressurization"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "285-286"}
+    },
+    {
+      "id": "mem-emergency-descent",
+      "title": "EMERGENCY DESCENT",
+      "steps": [
+        "Thrust . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . IDLE",
+        "Speedbrakes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . EXT",
+        "Autopilot . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . OFF",
+        "Initiate Moderate Bank . . . . . . . . . . . . . . . . . . . . . . . . . . .45° MAX"
+      ],
+      "distractors": [],
+      "tags": ["emergency","descent"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "287-288"}
+    },
+    {
+      "id": "mem-over-pressurization",
+      "title": "OVER PRESSURIZATION",
+      "steps": [
+        "Cabin Pressure Source . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . OFF",
+        "Oxygen Masks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . DON",
+        "Mic Selectors . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . OXY MASK",
+        "SPKR Switch . . . . . . . . . . . . . . . . . . . . . . . . . . . . .ON or DON HEADSET",
+        "INTPH Switch . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ON"
+      ],
+      "distractors": [],
+      "tags": ["general"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "289-290"}
+    },
+    {
+      "id": "mem-loss-of-both-generators",
+      "title": "LOSS OF BOTH GENERATORS",
+      "steps": [
+        "GEN FLD and START/GEN Circuit Breakers",
+        "Generator Reset (L and R) . . . . . . . . . . . . . . . . . . . . RESET/NORM"
+      ],
+      "distractors": [],
+      "tags": ["electrical"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "291-292"}
+    },
+    {
+      "id": "mem-pitch-roll-rudder-trim-runaway-or-failure",
+      "title": "PITCH / ROLL / RUDDER TRIM RUNAWAY OR FAILURE",
+      "steps": [
+        "TRIM INT/AP Disengage Switch . . . . . . . . . . . . . . . . . . PUSH AND HOLD"
+      ],
+      "distractors": [],
+      "tags": ["failure","trim"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "293-294"}
+    },
+    {
+      "id": "mem-power-brake-failure",
+      "title": "POWER BRAKE FAILURE",
+      "steps": [
+        "Break Safety Wire and Remove Guard Clip on Emergency Brake Handle",
+        "Emergency Brakes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . APPLY GRADUALLY"
+      ],
+      "distractors": [],
+      "tags": ["failure","brakes"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "295-296"}
+    },
+    {
+      "id": "mem-autopilot-trim-fail",
+      "title": "AUTOPILOT TRIM FAIL",
+      "steps": [
+        "Trim Indicators CHECK FOR PROPER POSITION FOR FLIGHT CONDITION",
+        "TRIM INT/AP Disengage Switch . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . PUSH"
+      ],
+      "distractors": [],
+      "tags": ["trim","autopilot"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "297-298"}
+    },
+    {
+      "id": "mem-autopilot-overspeed-recovery",
+      "title": "AUTOPILOT OVERSPEED RECOVERY",
+      "steps": [
+        "Thrust . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . IDLE"
+      ],
+      "distractors": [],
+      "tags": ["overspeed","autopilot"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "299-300"}
+    },
+    {
+      "id": "mem-flight-director-malfunctions",
+      "title": "FLIGHT DIRECTOR MALFUNCTIONS",
+      "steps": [
+        "TRIM INT/AP Disengage Switch . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . PUSH"
+      ],
+      "distractors": [],
+      "tags": ["general"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "301-302"}
+    },
+    {
+      "id": "mem-loss-of-airspeed-indications",
+      "title": "LOSS OF AIRSPEED INDICATION(S)",
+      "steps": [
+        "Autopilot . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . DISCONNECT",
+        "Airspeed . . . . . . . . . . . . . . . . . . . . . . . . . SLOW TO 0.2 AOA and MAINTAIN",
+        "Thrust . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . AS REQUIRED",
+        "Speedbrakes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . AS REQUIRED (Slow to 0.25 AOA with the speedbrakes extended)"
+      ],
+      "distractors": [],
+      "tags": ["airspeed"],
+      "source": {"file": "FlashCardsMEMORYITENS.pdf","pages": "303-304"}
+    }
+  ]
+}
