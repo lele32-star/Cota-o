@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hawker 400 Study</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Hawker 400 Study</h1>
+    <nav>
+      <button class="tab-btn" data-tab="home" aria-label="Início">Início</button>
+      <button class="tab-btn" data-tab="flash" aria-label="Flashcards">Flashcards</button>
+      <button class="tab-btn" data-tab="memory" aria-label="Memory Items">Memory Items</button>
+      <button class="tab-btn" data-tab="content" aria-label="Conteúdo">Conteúdo</button>
+      <button class="tab-btn" data-tab="config" aria-label="Config">Config</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="tab-section">
+      <div class="actions">
+        <button id="start-flash">Começar Flashcards</button>
+        <button id="start-memory">Treinar Memory Items</button>
+      </div>
+      <div id="stats"></div>
+      <div id="home-msg" class="msg"></div>
+    </section>
+
+    <section id="flash" class="tab-section hidden">
+      <div id="flashcard">
+        <div id="flash-front"></div>
+        <div id="flash-back" class="hidden"></div>
+      </div>
+      <button id="show-answer">Mostrar resposta</button>
+      <div id="flash-actions" class="hidden">
+        <button class="rate-btn" data-rate="2">Difícil</button>
+        <button class="rate-btn" data-rate="3">Ok</button>
+        <button class="rate-btn" data-rate="5">Fácil</button>
+      </div>
+      <div id="flash-counter"></div>
+      <div id="flash-empty" class="msg hidden">Sem cartões no momento.</div>
+    </section>
+
+    <section id="memory" class="tab-section hidden">
+      <div id="memory-empty" class="msg hidden">Sem itens ainda.</div>
+      <div id="memory-game">
+        <h2 id="memory-title"></h2>
+        <div id="memory-options" class="grid"></div>
+        <div id="memory-sequence"></div>
+        <div id="memory-feedback" class="msg"></div>
+        <div id="memory-timer"></div>
+        <div class="memory-buttons">
+          <button id="memory-check">Checar</button>
+          <button id="memory-reset">Refazer</button>
+          <button id="memory-next">Próximo</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="content" class="tab-section hidden">
+      <pre id="content-preview"></pre>
+      <div class="content-actions">
+        <button id="export-json">Exportar JSON</button>
+        <label class="import-label">
+          Importar JSON
+          <input type="file" id="import-json" accept="application/json" hidden>
+        </label>
+        <button id="clear-progress">Limpar progresso</button>
+      </div>
+    </section>
+
+    <section id="config" class="tab-section hidden">
+      <form id="config-form">
+        <label>
+          Tempo do Memory (segundos)
+          <input type="number" id="cfg-memory-time" min="10" step="5">
+        </label>
+        <label>
+          Meta diária de flashcards
+          <input type="number" id="cfg-daily-goal" min="1" step="1">
+        </label>
+        <button type="submit">Salvar</button>
+        <div id="config-msg" class="msg"></div>
+      </form>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

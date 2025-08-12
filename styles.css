@@ -1,0 +1,135 @@
+:root {
+  --bg: #121212;
+  --fg: #eee;
+  --accent: #0d6efd;
+  --danger: #dc3545;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+header {
+  background: #1e1e1e;
+  padding: 0.5rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 0.5rem;
+}
+
+nav button {
+  background: none;
+  border: none;
+  color: var(--fg);
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+nav button:focus {
+  outline: 2px solid var(--accent);
+}
+
+.tab-section {
+  padding: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.actions button,
+.memory-buttons button,
+#show-answer,
+#flash-actions button,
+.content-actions button,
+.import-label {
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 1rem;
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.memory-buttons button {
+  width: auto;
+  display: inline-block;
+}
+
+#import-json {
+  display: none;
+}
+
+.import-label {
+  text-align: center;
+  cursor: pointer;
+}
+
+#flashcard {
+  min-height: 100px;
+  padding: 1rem;
+  border: 1px solid #333;
+  margin-bottom: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.5rem;
+}
+
+.grid button {
+  padding: 0.5rem;
+}
+
+#memory-sequence {
+  min-height: 2rem;
+  margin-top: 0.5rem;
+}
+
+.msg {
+  margin-top: 0.5rem;
+  color: var(--accent);
+}
+
+.rate-btn[data-rate="2"] {
+  background: var(--danger);
+}
+
+.rate-btn[data-rate="3"] {
+  background: #ffc107;
+  color: #000;
+}
+
+.rate-btn[data-rate="5"] {
+  background: #198754;
+}
+
+@media (min-width: 600px) {
+  nav button {
+    font-size: 1rem;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+}
