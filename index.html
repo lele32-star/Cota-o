@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hawker 400 Trainer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Hawker 400 Trainer</h1>
+    <select id="player-select"></select>
+    <button id="new-player">Novo Jogador</button>
+    <p class="disclaimer">Material didático. Não substitui AFM/POH/QRH, nem treinamento aprovado.</p>
+  </header>
+
+  <main id="dashboard">
+    <section class="settings">
+      <h2>Configurações Rápidas</h2>
+      <div class="field">
+        <label>Categorias:</label>
+        <div id="category-select"></div>
+      </div>
+      <div class="field">
+        <label>Quantidade:</label>
+        <select id="count-select">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="all">Todas</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Tempo por questão:</label>
+        <select id="time-select">
+          <option value="0">Ilimitado</option>
+          <option value="15">15s</option>
+          <option value="30">30s</option>
+          <option value="60">60s</option>
+        </select>
+      </div>
+      <div class="field">
+        <label><input type="checkbox" id="sound-toggle" checked> Som</label>
+      </div>
+    </section>
+
+    <section class="actions">
+      <button id="train-btn">Treino</button>
+      <button id="challenge-btn">Desafio</button>
+    </section>
+
+    <section class="progress" id="progress-area"></section>
+    <section class="ranking" id="ranking-area"></section>
+  </main>
+
+  <section id="game" class="hidden">
+    <div id="question-area"></div>
+    <div id="timer" class="hidden"></div>
+    <div id="feedback"></div>
+    <button id="next-btn" class="hidden">Próxima</button>
+  </section>
+
+  <section id="postgame" class="hidden">
+    <h2>Resultados</h2>
+    <p id="score-summary"></p>
+    <ul id="mistake-list"></ul>
+    <button id="retry-errors">Refazer só os erros</button>
+    <button id="back-dashboard">Voltar</button>
+  </section>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
