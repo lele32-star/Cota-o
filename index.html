@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hawker 400 Trainer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Hawker 400 Trainer</h1>
+        <p class="disclaimer">Material didático. Não substitui AFM/POH/QRH, nem treinamento aprovado.</p>
+    </header>
+
+    <nav>
+        <button data-tab="duel">Duelo</button>
+        <button data-tab="train" class="active">Treino</button>
+        <button data-tab="database">Banco de Dados</button>
+        <button data-tab="config">Config</button>
+    </nav>
+
+    <main>
+        <section id="duel" class="tab hidden">
+            <p>Duelo online/pass-and-play ainda não implementado.</p>
+        </section>
+
+        <section id="train" class="tab">
+            <div class="mode-select">
+                <button id="start-flash">Flash Cards</button>
+                <button id="start-memory">Memory Items</button>
+            </div>
+
+            <div id="flash-area" class="hidden">
+                <div id="flash-question" class="card"></div>
+                <input id="flash-answer" type="text" placeholder="Resposta">
+                <button id="flash-submit">Responder</button>
+                <button id="flash-reveal">Revelar</button>
+                <div id="flash-feedback"></div>
+            </div>
+
+            <div id="memory-area" class="hidden">
+                <h2 id="memory-title"></h2>
+                <ul id="memory-list" class="draggable-list"></ul>
+                <button id="memory-validate">Validar</button>
+                <button id="memory-show">Mostrar sequência oficial</button>
+                <div id="memory-feedback"></div>
+            </div>
+        </section>
+
+        <section id="database" class="tab hidden">
+            <h2>Banco de Dados</h2>
+            <input type="text" id="filter-tag" placeholder="Filtrar por tag">
+            <ul id="db-list"></ul>
+        </section>
+
+        <section id="config" class="tab hidden">
+            <h2>Configurações</h2>
+            <label>Tempo por pergunta (s): <input type="number" id="cfg-time" min="5" max="60"></label>
+            <label>Tolerância numérica (kt): <input type="number" id="cfg-tolerance" min="0" max="10"></label>
+            <button id="cfg-save">Salvar</button>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
