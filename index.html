@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>English Aviation Tracker V2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .nav-active { background-color:#3b82f6;color:white; }
+        .completed { text-decoration:line-through;opacity:.6; }
+        .file-drop-zone { border:2px dashed #d1d5db; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <nav class="p-4 bg-white shadow flex gap-4">
+        <a onclick="showPage('schedule')" class="nav-link nav-active cursor-pointer">Cronograma</a>
+        <a onclick="showPage('dashboard')" class="nav-link cursor-pointer">Dashboard</a>
+    </nav>
+
+    <main>
+        <section id="schedule-page" class="page p-4">
+            <h1 class="text-xl font-bold mb-4">Cronograma Semanal</h1>
+            <div id="schedule-grid" class="grid gap-4"></div>
+        </section>
+
+        <section id="dashboard-page" class="page hidden p-4">
+            <h1 class="text-xl font-bold mb-4">Dashboard</h1>
+            <p>Dia atual: <span id="current-day">-</span></p>
+            <p>Dias estudados: <span id="days-studied">0</span></p>
+            <p>Minutos totais: <span id="total-minutes">0</span></p>
+        </section>
+
+        <section id="lesson-page" class="page hidden p-4 space-y-4">
+            <div class="flex items-center gap-2">
+                <button onclick="showPage('schedule')" class="text-blue-600">Voltar</button>
+                <h2 id="lesson-title" class="text-lg font-bold"></h2>
+            </div>
+            <div id="activities-container" class="space-y-2"></div>
+            <div>
+                <textarea id="summary-text" class="w-full border p-2" placeholder="Resumo" oninput="saveSummary(event)"></textarea>
+                <div class="file-drop-zone mt-2 p-4 text-center cursor-pointer" onclick="document.getElementById('file-input').click()">
+                    <p>Adicionar arquivos</p>
+                    <input id="file-input" type="file" multiple class="hidden" onchange="handleFileUpload(event)" />
+                </div>
+                <div id="file-list" class="hidden mt-2">
+                    <h4 class="font-medium">Arquivos (<span id="file-count">0</span>)</h4>
+                    <div id="files-container" class="space-y-2"></div>
+                </div>
+                <div class="flex gap-2 mt-2">
+                    <button onclick="saveSummary(event)" class="border px-2 py-1">Salvar Resumo</button>
+                    <button onclick="finishDay()" id="finish-day-btn" class="bg-green-600 text-white px-2 py-1 rounded disabled:bg-gray-400" disabled>Finalizar Dia</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const weeklySchedule = {
+            1: {name:'Segunda-feira', focus:'Speaking + Reading', activities:[
+                {id:'mon-1', name:'Curso na Coursera', duration:45, skill:'speaking'},
+                {id:'mon-2', name:'Leitura de artigo', duration:30, skill:'reading'}
+            ]},
+            2: {name:'Terça-feira', focus:'Listening + Writing', activities:[
+                {id:'tue-1', name:'Listening English', duration:30, skill:'listening'},
+                {id:'tue-2', name:'Escrever texto', duration:30, skill:'writing'}
+            ]}
+        };
+
+        let currentDay = 1;
+        let currentLesson = 1;
+        let progress = {};
+        let summaries = {};
+        let attachments = {};
+
+        function init(){
+            currentDay = new Date().getDay() || 7;
+            loadData();
+            lucide.createIcons();
+            showPage('schedule');
+            updateDashboard();
+        }
+
+        function showPage(pageId){
+            document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+            document.getElementById(pageId+'-page').classList.remove('hidden');
+            document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('nav-active'));
+            const activeNav=document.querySelector(`.nav-link[onclick="showPage('${pageId}')"]`);
+            if(activeNav) activeNav.classList.add('nav-active');
+            if(pageId==='schedule') generateSchedule();
+            if(pageId==='dashboard') updateDashboard();
+        }
+
+        function showLesson(dayNum){
+            currentLesson=dayNum;
+            showPage('lesson');
+            generateLessonPage(dayNum);
+        }
+
+        function generateSchedule(){
+            const grid=document.getElementById('schedule-grid');
+            grid.innerHTML='';
+            Object.entries(weeklySchedule).forEach(([num,data])=>{
+                const card=document.createElement('div');
+                card.className='border p-2 bg-white shadow';
+                card.innerHTML=`<h3 class="font-bold">Dia ${num} - ${data.name}</h3>
+                <p class="text-sm">${data.focus}</p>
+                <button class="mt-2 border px-2 py-1" onclick="showLesson(${num})">Estudar</button>`;
+                grid.appendChild(card);
+            });
+        }
+
+        function generateLessonPage(dayNum){
+            const day=weeklySchedule[dayNum];
+            document.getElementById('lesson-title').textContent=day.name;
+            const container=document.getElementById('activities-container');
+            container.innerHTML='';
+            day.activities.forEach(act=>{
+                const done=isActivityCompleted(dayNum,act.id);
+                const div=document.createElement('div');
+                div.innerHTML=`<label class="flex items-center gap-2"><input type="checkbox" ${done?'checked':''} onchange="toggleActivity(${dayNum}, '${act.id}')"/>${act.name}</label>`;
+                container.appendChild(div);
+            });
+            loadSummary(dayNum);
+            updateFinishDayButton(dayNum);
+            lucide.createIcons();
+        }
+
+        function isActivityCompleted(day, id){ return progress[day] && progress[day][id]; }
+
+        function toggleActivity(day,id){
+            if(!progress[day]) progress[day]={};
+            progress[day][id]=!progress[day][id];
+            saveData();
+            updateFinishDayButton(day);
+        }
+
+        function updateFinishDayButton(day){
+            const btn=document.getElementById('finish-day-btn');
+            const completed=getDayProgress(day)>=100;
+            btn.disabled=!completed;
+        }
+
+        function getDayProgress(day){
+            const acts=weeklySchedule[day].activities;
+            const done=acts.filter(a=>isActivityCompleted(day,a.id)).length;
+            return done/acts.length*100;
+        }
+
+        function loadSummary(day){
+            document.getElementById('summary-text').value=summaries[day]||'';
+            displayAttachments(day);
+        }
+
+        function saveSummary(e){
+            summaries[currentLesson]=document.getElementById('summary-text').value;
+            saveData();
+            const btn=e?.target?.closest('button');
+            if(btn){
+                const html=btn.innerHTML;
+                btn.innerHTML='<span class="text-green-600">Salvo!</span>';
+                btn.disabled=true;
+                setTimeout(()=>{btn.innerHTML=html;btn.disabled=false;},1000);
+            }
+        }
+
+        function handleFileUpload(e){
+            const files=Array.from(e.target.files);
+            if(!attachments[currentLesson]) attachments[currentLesson]=[];
+            files.forEach(f=>attachments[currentLesson].push({id:Date.now()+Math.random(),name:f.name,type:f.type,size:f.size,uploadedAt:new Date().toISOString()}));
+            displayAttachments(currentLesson);
+            saveData();
+        }
+
+        function displayAttachments(day){
+            const list=document.getElementById('file-list');
+            const cont=document.getElementById('files-container');
+            const count=document.getElementById('file-count');
+            const arr=attachments[day]||[];
+            if(arr.length){
+                list.classList.remove('hidden');
+                count.textContent=arr.length;
+                cont.innerHTML=arr.map(f=>`<div class="flex items-center gap-2 border p-1"><span>${f.name}</span><button onclick="removeFile('${f.id}')" class="text-red-600">x</button></div>`).join('');
+            } else {
+                list.classList.add('hidden');
+            }
+        }
+
+        function removeFile(id){
+            attachments[currentLesson]=attachments[currentLesson].filter(f=>f.id!==id);
+            displayAttachments(currentLesson);
+            saveData();
+        }
+
+        function finishDay(){
+            if(getDayProgress(currentLesson)<100){alert('Complete as atividades.');return;}
+            if(!progress[currentLesson]) progress[currentLesson]={};
+            progress[currentLesson].finished=true;
+            saveData();
+            alert('Dia concluído!');
+            updateDashboard();
+        }
+
+        function updateDashboard(){
+            document.getElementById('current-day').textContent=currentDay;
+            const finished=Object.keys(progress).filter(d=>progress[d].finished).length;
+            document.getElementById('days-studied').textContent=finished;
+            let minutes=0;Object.keys(progress).forEach(d=>{if(progress[d].finished){weeklySchedule[d].activities.forEach(a=>minutes+=a.duration);}});
+            document.getElementById('total-minutes').textContent=minutes;
+        }
+
+        function saveData(){
+            localStorage.setItem('english-tracker-data', JSON.stringify({progress,summaries,attachments,currentDay}));
+        }
+
+        function loadData(){
+            const data=JSON.parse(localStorage.getItem('english-tracker-data')||'{}');
+            progress=data.progress||{};summaries=data.summaries||{};attachments=data.attachments||{};if(data.currentDay) currentDay=data.currentDay;
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
