@@ -31,8 +31,8 @@ export async function handler(event) {
     }
 
     const loc = record.location || {};
-    const lat = loc.lat ?? loc.latitude;
-    const lon = loc.lon ?? loc.longitude;
+    const lat = Number(loc.lat ?? loc.latitude);
+    const lon = Number(loc.lon ?? loc.longitude);
     if (lat == null || lon == null) {
       return { statusCode: 502, body: JSON.stringify({ error: 'Aeroporto sem coordenadas' }) };
     }

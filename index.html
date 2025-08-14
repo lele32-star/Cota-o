@@ -93,19 +93,35 @@
 
 <script>
 let map, line, mkA, mkB, lastCalc;
+const cache = new Map(); // cache de aeroportos
+let currentAbort; // controle de abort de requisições
 
 // --- util ---
 function toBRL(v){ return v.toLocaleString('pt-BR',{style:'currency', currency:'BRL'}); }
 function haversineKm([lat1, lon1], [lat2, lon2]) {
-  const R=6371, toRad=d=>d*Math.PI/180;
-  const dLat = toRad(lat2-lat1), dLon = toRad(lon2-lon1);
+  const R = 6371, toRad = d => d * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
   const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
-  return 2*R*Math.asin(Math.sqrt(a));
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+async function safeFetch(url, opts = {}) {
+  if (currentAbort) currentAbort.abort();
+  currentAbort = new AbortController();
+  return fetch(url, { ...opts, signal: currentAbort.signal });
 }
 async function resolvePlace(q){
-  const r = await fetch(`/.netlify/functions/airport?q=${encodeURIComponent(q)}`);
+  const r = await safeFetch(`/.netlify/functions/airport?q=${encodeURIComponent(q)}`);
   if(!r.ok) throw new Error("Não encontrei: " + q);
   return r.json(); // {icao, name, lat, lon}
+}
+async function resolvePlaceStable(q) {
+  if (cache.has(q)) return cache.get(q);
+  const d = await resolvePlace(q);
+  const lat = Number((d.lat ?? d.latitude).toString().replace(',', '.'));
+  const lon = Number((d.lon ?? d.longitude).toString().replace(',', '.'));
+  const fixed = { icao: d.icao || '', name: d.name || '', lat, lon };
+  cache.set(q, fixed);
+  return fixed;
 }
 function ensureMap(center=[-15.78,-47.93]){
   if (!map) {
@@ -121,48 +137,52 @@ document.getElementById('btCalc').addEventListener('click', async ()=>{
     const toQ   = document.getElementById('to').value.trim();
     if(!fromQ || !toQ) throw new Error("Preencha origem e destino.");
 
-    const [from, to] = await Promise.all([resolvePlace(fromQ), resolvePlace(toQ)]);
-    const a = [from.lat, from.lon], b = [to.lat, to.lon];
+    const [from, to] = await Promise.all([resolvePlaceStable(fromQ), resolvePlaceStable(toQ)]);
+    const A = [Number(from.lat), Number(from.lon)];
+    const B = [Number(to.lat),   Number(to.lon)];
 
-    const km = haversineKm(a,b);
+    const km = haversineKm(A,B);
     const nm = km / 1.852;
 
     const [aircraftName, rateStr] = document.getElementById('aircraft').value.split('|');
     const rate = parseFloat(rateStr);
 
-    const round = document.getElementById('roundtrip').value === 'round';
-    const legs  = round ? 2 : 1;
-    const base  = km * rate * legs;
+    const roundtrip = document.getElementById('roundtrip').value === 'round';
+    const legs  = roundtrip ? 2 : 1;
+    const subtotal  = km * rate * legs;
 
     const adjType = document.getElementById('adjType').value;
     const adjVal  = parseFloat(document.getElementById('adjValue').value) || 0;
-    const total   = adjType === 'add' ? base + adjVal
-                    : adjType === 'sub' ? Math.max(0, base - adjVal)
-                    : base;
+    const total   = adjType === 'add' ? subtotal + adjVal
+                    : adjType === 'sub' ? Math.max(0, subtotal - adjVal)
+                    : subtotal;
 
     // mapa
-    ensureMap(a);
-    if (line) { map.removeLayer(line); line=null; }
+    ensureMap(A);
     if (mkA) { map.removeLayer(mkA); mkA=null; }
     if (mkB) { map.removeLayer(mkB); mkB=null; }
-    mkA = L.marker(a).addTo(map).bindPopup(`${from.icao || from.name || 'Origem'}`);
-    mkB = L.marker(b).addTo(map).bindPopup(`${to.icao || to.name || 'Destino'}`);
-    line = L.polyline([a,b]).addTo(map);
-    map.fitBounds([a,b], { padding:[20,20] });
+    if (line) { map.removeLayer(line); }
+    mkA = L.marker(A).addTo(map).bindPopup(`${from.icao || from.name || 'Origem'}`);
+    mkB = L.marker(B).addTo(map).bindPopup(`${to.icao || to.name || 'Destino'}`);
+    line = L.polyline([A,B]).addTo(map);
+    map.fitBounds([A,B], { padding:[20,20] });
+    setTimeout(()=> map.invalidateSize(), 200);
 
     // resumo
     const resumo = document.getElementById('resumo');
     resumo.innerHTML = `
-      <b>Rota:</b> ${(from.icao||from.name)} → ${(to.icao||to.name)} ${round ? "(ida/volta)" : ""}<br>
-      <b>Distância:</b> ${km.toFixed(1)} km (${nm.toFixed(1)} NM) — ${legs} perna(s)<br>
+      <b>Rota:</b> ${(from.icao||from.name)} → ${(to.icao||to.name)} ${roundtrip ? "(ida/volta)" : ""}<br>
+      <b>Distância:</b> <span id="distKm"></span> — ${legs} perna(s)<br>
       <b>Aeronave:</b> ${aircraftName} — ${toBRL(rate)}/km<br>
-      <b>Subtotal:</b> ${toBRL(base)}<br>
+      <b>Subtotal:</b> ${toBRL(subtotal)}<br>
       ${adjType==='add' ? `<b>Despesas acessórias:</b> ${toBRL(adjVal)}<br>` : ""}
       ${adjType==='sub' ? `<b>Desconto:</b> -${toBRL(adjVal)}<br>` : ""}
       <b>Total:</b> ${toBRL(total)}
     `;
+    const distKmEl = document.getElementById('distKm');
+    distKmEl.textContent = `${km.toFixed(1)} km (${nm.toFixed(1)} NM)`;
 
-    lastCalc = { from, to, km, nm, aircraftName, rate, base, adjType, adjVal, total, round };
+    lastCalc = { from, to, km, nm, aircraftName, rate, subtotal, adjType, adjVal, total, round: roundtrip };
     document.getElementById('btPdf').disabled = false;
 
   }catch(e){
@@ -184,7 +204,7 @@ document.getElementById('btPdf').addEventListener('click', ()=>{
       ["Distância", `${lastCalc.km.toFixed(1)} km (${lastCalc.nm.toFixed(1)} NM)`],
       ["Aeronave", `${lastCalc.aircraftName} — ${toBRL(lastCalc.rate)}/km`],
       ["Pernas", lastCalc.round ? "Ida e volta (2)" : "Só ida (1)"],
-      ["Subtotal", toBRL(lastCalc.base)],
+      ["Subtotal", toBRL(lastCalc.subtotal)],
     ];
     if(lastCalc.adjType==='add') rows.push(["Despesas acessórias", toBRL(lastCalc.adjVal)]);
     if(lastCalc.adjType==='sub') rows.push(["Desconto", `-${toBRL(lastCalc.adjVal)}`]);
