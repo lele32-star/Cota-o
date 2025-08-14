@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cotação de Voo Executivo</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Capturar imagem do mapa -->
+<script src="https://unpkg.com/leaflet-image/leaflet-image.js"></script>
+
+<!-- PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+<style>
+  body { font-family: system-ui, Arial, sans-serif; margin: 20px; max-width: 900px; }
+  fieldset { border: 1px solid #ddd; padding: 12px; margin-bottom: 16px; }
+  label { display:block; margin-top: 8px; font-weight: 600; }
+  input, select { padding: 8px; width: 100%; max-width: 420px; }
+  #map { height: 360px; margin: 12px 0; }
+  .row { display:flex; gap:16px; flex-wrap:wrap; }
+  .row > div { flex:1 1 260px; }
+  button { padding:10px 16px; cursor:pointer; }
+  .muted { color:#666; font-size: 12px; }
+  .out { padding:8px; background:#f8f8f8; border:1px solid #eee; margin-top:8px; }
+</style>
+</head>
+<body>
+  <!--
+    README
+    Como rodar localmente: adicione sua chave RapidAPI em netlify/functions/airport.js ou defina RAPIDAPI_KEY/RAPIDAPI_HOST.
+    Como publicar: remova chaves fixas e configure as variáveis de ambiente RAPIDAPI_KEY e RAPIDAPI_HOST na plataforma (ex.: Netlify).
+  -->
+  <h1>🛩️ Cotação de Voo</h1>
+
+  <fieldset>
+    <legend>Origem & Destino</legend>
+    <div class="row">
+      <div>
+        <label>Origem (ICAO ou nome)</label>
+        <input id="from" placeholder="Ex.: SBBH ou 'Pampulha'">
+      </div>
+      <div>
+        <label>Destino (ICAO ou nome)</label>
+        <input id="to" placeholder="Ex.: SBBR ou 'Brasília'">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>Aeronave / R$/km</label>
+        <select id="aircraft">
+          <option value="Hawker 400|36">Hawker 400 — R$36/km</option>
+          <option value="Phenom 100|36">Phenom 100 — R$36/km</option>
+          <option value="Citation II|36">Citation II — R$36/km</option>
+          <option value="King Air C90|30">King Air C90 — R$30/km</option>
+          <option value="Sêneca IV|22">Sêneca IV — R$22/km</option>
+          <option value="Cirrus SR22|15">Cirrus SR22 — R$15/km</option>
+        </select>
+      </div>
+      <div>
+        <label>Ida/Volta?</label>
+        <select id="roundtrip">
+          <option value="oneway">Só ida</option>
+          <option value="round">Ida e volta</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>Ajuste (Adicionar/Subtrair)</label>
+        <select id="adjType">
+          <option value="none">Sem ajuste</option>
+          <option value="add">Adicionar</option>
+          <option value="sub">Subtrair</option>
+        </select>
+      </div>
+      <div>
+        <label>Valor do ajuste (R$)</label>
+        <input id="adjValue" type="number" step="0.01" placeholder="0,00">
+        <div class="muted">Se “Adicionar” → “Despesas acessórias” no PDF. Se “Subtrair” → “Desconto”.</div>
+      </div>
+    </div>
+    <button id="btCalc">Calcular & Traçar Rota</button>
+    <button id="btPdf" disabled>Gerar PDF</button>
+  </fieldset>
+
+  <div id="map"></div>
+
+  <div class="out" id="resumo"></div>
+
+<script>
+let map, line, mkA, mkB, lastCalc;
+const cache = new Map(); // cache de aeroportos
+let currentAbort; // controle de abort de requisições
+
+// --- util ---
+function toBRL(v){ return v.toLocaleString('pt-BR',{style:'currency', currency:'BRL'}); }
+function haversineKm([lat1, lon1], [lat2, lon2]) {
+  const R = 6371, toRad = d => d * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+async function safeFetch(url, opts = {}) {
+  if (currentAbort) currentAbort.abort();
+  currentAbort = new AbortController();
+  return fetch(url, { ...opts, signal: currentAbort.signal });
+}
+async function resolvePlace(q){
+  const r = await safeFetch(`/.netlify/functions/airport?q=${encodeURIComponent(q)}`);
+  if(!r.ok) throw new Error("Não encontrei: " + q);
+  return r.json(); // {icao, name, lat, lon}
+}
+async function resolvePlaceStable(q) {
+  if (cache.has(q)) return cache.get(q);
+  const d = await resolvePlace(q);
+  const lat = Number((d.lat ?? d.latitude).toString().replace(',', '.'));
+  const lon = Number((d.lon ?? d.longitude).toString().replace(',', '.'));
+  const fixed = { icao: d.icao || '', name: d.name || '', lat, lon };
+  cache.set(q, fixed);
+  return fixed;
+}
+function ensureMap(center=[-15.78,-47.93]){
+  if (!map) {
+    map = L.map('map').setView(center, 5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OSM'}).addTo(map);
+  }
+}
+
+// --- principal ---
+document.getElementById('btCalc').addEventListener('click', async ()=>{
+  try{
+    const fromQ = document.getElementById('from').value.trim();
+    const toQ   = document.getElementById('to').value.trim();
+    if(!fromQ || !toQ) throw new Error("Preencha origem e destino.");
+
+    const [from, to] = await Promise.all([resolvePlaceStable(fromQ), resolvePlaceStable(toQ)]);
+    const A = [Number(from.lat), Number(from.lon)];
+    const B = [Number(to.lat),   Number(to.lon)];
+
+    const km = haversineKm(A,B);
+    const nm = km / 1.852;
+
+    const [aircraftName, rateStr] = document.getElementById('aircraft').value.split('|');
+    const rate = parseFloat(rateStr);
+
+    const roundtrip = document.getElementById('roundtrip').value === 'round';
+    const legs  = roundtrip ? 2 : 1;
+    const subtotal  = km * rate * legs;
+
+    const adjType = document.getElementById('adjType').value;
+    const adjVal  = parseFloat(document.getElementById('adjValue').value) || 0;
+    const total   = adjType === 'add' ? subtotal + adjVal
+                    : adjType === 'sub' ? Math.max(0, subtotal - adjVal)
+                    : subtotal;
+
+    // mapa
+    ensureMap(A);
+    if (mkA) { map.removeLayer(mkA); mkA=null; }
+    if (mkB) { map.removeLayer(mkB); mkB=null; }
+    if (line) { map.removeLayer(line); }
+    mkA = L.marker(A).addTo(map).bindPopup(`${from.icao || from.name || 'Origem'}`);
+    mkB = L.marker(B).addTo(map).bindPopup(`${to.icao || to.name || 'Destino'}`);
+    line = L.polyline([A,B]).addTo(map);
+    map.fitBounds([A,B], { padding:[20,20] });
+    setTimeout(()=> map.invalidateSize(), 200);
+
+    // resumo
+    const resumo = document.getElementById('resumo');
+    resumo.innerHTML = `
+      <b>Rota:</b> ${(from.icao||from.name)} → ${(to.icao||to.name)} ${roundtrip ? "(ida/volta)" : ""}<br>
+      <b>Distância:</b> <span id="distKm"></span> — ${legs} perna(s)<br>
+      <b>Aeronave:</b> ${aircraftName} — ${toBRL(rate)}/km<br>
+      <b>Subtotal:</b> ${toBRL(subtotal)}<br>
+      ${adjType==='add' ? `<b>Despesas acessórias:</b> ${toBRL(adjVal)}<br>` : ""}
+      ${adjType==='sub' ? `<b>Desconto:</b> -${toBRL(adjVal)}<br>` : ""}
+      <b>Total:</b> ${toBRL(total)}
+    `;
+    const distKmEl = document.getElementById('distKm');
+    distKmEl.textContent = `${km.toFixed(1)} km (${nm.toFixed(1)} NM)`;
+
+    lastCalc = { from, to, km, nm, aircraftName, rate, subtotal, adjType, adjVal, total, round: roundtrip };
+    document.getElementById('btPdf').disabled = false;
+
+  }catch(e){
+    alert(e.message);
+  }
+});
+
+// --- PDF com mapa ---
+document.getElementById('btPdf').addEventListener('click', ()=>{
+  if(!lastCalc || !map) return;
+
+  // Gera imagem do mapa
+  window.leafletImage(map, function(err, canvas) {
+    const imgData = canvas.toDataURL();
+
+    const rows = [
+      ["Origem", lastCalc.from.icao || lastCalc.from.name],
+      ["Destino", lastCalc.to.icao || lastCalc.to.name],
+      ["Distância", `${lastCalc.km.toFixed(1)} km (${lastCalc.nm.toFixed(1)} NM)`],
+      ["Aeronave", `${lastCalc.aircraftName} — ${toBRL(lastCalc.rate)}/km`],
+      ["Pernas", lastCalc.round ? "Ida e volta (2)" : "Só ida (1)"],
+      ["Subtotal", toBRL(lastCalc.subtotal)],
+    ];
+    if(lastCalc.adjType==='add') rows.push(["Despesas acessórias", toBRL(lastCalc.adjVal)]);
+    if(lastCalc.adjType==='sub') rows.push(["Desconto", `-${toBRL(lastCalc.adjVal)}`]);
+    rows.push(["Total", toBRL(lastCalc.total)]);
+
+    const doc = {
+      pageSize: "A4",
+      content: [
+        { text: "Cotação de Voo Executivo", style: "h1", margin:[0,0,0,10] },
+        { image: imgData, width: 460, margin:[0,0,0,10] },
+        {
+          table: {
+            widths: ["*", "*"],
+            body: rows
+          }
+        },
+        { text: "\nMapa ilustrativo — rota em linha reta (estimativa).", style: "note" }
+      ],
+      styles: {
+        h1: { fontSize: 18, bold: true },
+        note: { fontSize: 9, color: "#666" }
+      }
+    };
+    pdfMake.createPdf(doc).download("cotacao-voo.pdf");
+  });
+});
+</script>
+</body>
+</html>
